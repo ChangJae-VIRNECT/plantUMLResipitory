@@ -14,4 +14,4 @@
 * workspace 선택 버튼 누를 때 Config.json 에 해당 workspace id 저장    
 * 로그인 버튼 누를 때 config.json 에 workspace id 가 있으면 해당 workspace id 갱신 및 자동으로 workspace 선택 버튼 Invoke   
 
-![Activity Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/cjLee-VIRNECT/plantUML-test/main/Reconnect%20to%20last%20conected%20workspace/Activity%20Diagram.iuml?token=ATXUUVUDGBXAU24GYVWLB33AYG73W)
+![Activity Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/cjLee-VIRNECT/plantUML-test/main/Reconnect%20to%20last%20conected%20workspace/Activity%20Diagram.iuml)
