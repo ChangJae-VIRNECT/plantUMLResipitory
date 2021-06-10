@@ -1,8 +1,10 @@
-@startuml Reconnect to last conected workspace
-:User.WorkspaceId = config.json/WorkspaceId}
-if (User.WorkspaceId != null) then (yes)
-    :User.WorkspaceId
-else (no)
-    : config.json/WorkspaceId = User.WorkspaceId}
-endif
+@startuml
+actor client
+node app
+node car
+node tshirt
+
+car -> app
+app -> client
+client -> tshirt
 @enduml
