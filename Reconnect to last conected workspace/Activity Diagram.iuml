@@ -1,13 +1,8 @@
 @startuml Reconnect to last conected workspace
-:로그인 버튼 클릭;
 :User.WorkspaceId = config.json/WorkspaceId}
 if (User.WorkspaceId != null) then (yes)
-    :User.WorkspaceId 의
-    워크스페이스 선택하기 버튼 자동 클릭;
+    :User.WorkspaceId
 else (no)
-    :워크스페이스 선택화면;
-    :사용자가 workspace 선택하기 버튼 클릭;
     : config.json/WorkspaceId = User.WorkspaceId}
 endif
-:원격협업 선택화면;
 @enduml
