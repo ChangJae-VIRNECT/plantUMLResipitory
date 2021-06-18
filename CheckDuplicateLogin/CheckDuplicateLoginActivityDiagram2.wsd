@@ -1,0 +1,54 @@
+@startuml duplicate login check
+:Click login button;
+if (workspaceId == null) then (yes)
+:workspace Select Page]
+:select workspace;
+else (no)
+endif
+:workspace page]
+:request WSS handshake]
+if (WSS handshake success) then (no)
+    :WSS Connect fail]
+end
+
+else (yes)
+    :WSS Connect success]
+    repeat
+        fork
+        partition "WSS health check" {
+            :receive "PING"<
+            :send "PONG">
+        }
+        fork again
+        partition "Register user info" {
+            :send "Register user info">
+            partition #LightSteelBlue "Duplicate login Check" {
+                if (duplicate login) then (no)
+                :receive "Register success"<
+                :login]
+                detach
+                else (yes)
+                :receive "Register fail"<
+                    if (show alert window "kick out duplicate login user?") then (no)
+                        :logout]
+                        detach
+                    else (yes)
+                        :send "Kick out duplicate login user">
+                        :login]
+                        detach
+                    endif
+                endif
+            }
+        }
+        fork again
+        partition #LightSteelBlue "Duplicate login Check" {
+        :receive "Kick out duplicate login"<
+        :show alert window "duplicate login detected"]
+        :logout]
+        detach
+        }
+        end fork
+    repeat while
+    detach
+endif
+@enduml
