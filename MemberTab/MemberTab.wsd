@@ -1,0 +1,25 @@
+@startuml memberTab
+:Member tab 클릭;
+:현재 접속 중인 WorkSpace member list 조회;
+if (이전에 받은 멤버 목록이 존재) then (yes)
+:기존 멤버 목록 삭제;
+endif
+: 서버에서 받아온 memberInfoList;
+repeat
+    if (memberInfo == myInfo) then (no)
+        :오브젝트 풀에 있는 멤버 오브젝트를 멤버 컨테이너에 세팅;
+        if (member.role == MASTER) then (yes)
+        :index 0 번에 해당 멤버 오브젝트 세팅;
+        endif
+    endif
+    if (member.profile == "default") then (yes)
+    :기본 이미지 세팅;
+    else (no)
+    :URL 로 이미지 받아온 후 이미지 세팅;
+    endif
+    :멤버 닉네임, email 세팅;
+repeat while
+:gridObjectCollection 업데이트
+ScrollingObjectCollection 업데이트;
+stop
+@enduml

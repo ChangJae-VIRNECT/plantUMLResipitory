@@ -1,0 +1,31 @@
+@startuml SearchBox
+:검색어 입력;
+if (현재탭) then (원격협업)
+    :현재 zworkspace 의 방 정보 불러와서
+    container 에 방 개수만큼 Room prefab 생성;
+    :index = 0;
+    repeat
+        if (각각의 방의 제목과 참여자의 이름에 검색어가 포함) then (no)
+            :해당 room prefab 삭제;
+        else (yes)
+            :index++;
+        endif
+    repeat while
+    :gridObjectCollection 업데이트
+    ScrollingObjectCollection 업데이트;
+else (멤버)
+    :현재 workspace 의 멤버 정보 불러와서
+    container 에 멤버 수만큼 
+    Member object pool 에서 member object 가져옴;
+    :index = 0;
+    repeat
+        if (각각의 멤버의 닉네임과 이메일에 검색어가 포함) then (no)
+            :해당 member object 를 Member Object pool 로 이동;
+        else (yes)
+            :index++;
+        endif
+    repeat while
+    :gridObjectCollection 업데이트
+    ScrollingObjectCollection 업데이트;
+endif
+@enduml
