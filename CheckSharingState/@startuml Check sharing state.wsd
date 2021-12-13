@@ -1,0 +1,29 @@
+@startuml Check sharing state
+기본화면 : 전체 공유 버튼 활성화\nAR 기능 버튼 비활성화\nfloatingWindow 비활성화
+전체공유 : AR 기능 버튼 활성화\nAR 포인팅, 3D 콘텐츠, AR 캡쳐 기능 비활성화\nfloatingWindow 활성화
+AR기능 : AR 포인팅, 3D 콘텐츠, AR 캡쳐 기능 활성화
+
+기본화면 --> 전체공유 : 전체 공유\nsignal : share
+전체공유 -up-> 기본화면 : 전체 공유 중지\nsignal : normal
+
+전체공유 -> AR기능 : AR 기능\nsignal : startArFeature
+AR기능 --> 전체공유 : AR 기능 중지\nsignal : stopArFeature
+
+state AR기능 {
+    AR포인팅 : AR포인팅 콜라이더 활성화\nAR드로잉 콜라이더 비활성화(미구현)
+    3D콘텐츠 : AR포인팅 콜라이더 비활성화\nAR드로잉 콜라이더 비활성화(미구현)
+    AR드로잉 : AR포인팅 콜라이더 비활성화\nAR드로잉 콜라이더 활성화(미구현)
+
+    [*] --> AR포인팅
+    AR포인팅 -down-> 3D콘텐츠 : 3D 콘텐츠 클릭\nsignal : start3dContentsShare
+    AR포인팅 -down-> AR캡쳐 : AR 캡쳐 클릭
+    3D콘텐츠 -up-> AR포인팅 : AR 포인팅 클릭\nsignal : stop3dContentsShare
+    3D콘텐츠 -left-> AR캡쳐 : AR 캡쳐 클릭\nsignal : stop3dContentsShare
+    AR캡쳐 -right-> 3D콘텐츠 : 3D 콘텐츠 클릭\nsignal : start3dContentsShare
+    AR캡쳐 -up-> AR포인팅 : AR 포인팅 클릭\nsignal : endArDrawing
+    AR캡쳐 -down-> AR드로잉 : AR 영역지정 클릭\nsignal : startArDrawing
+    AR드로잉 -up-> AR캡쳐 : AR 캡쳐\nsignal : endArDrawing
+    AR드로잉 -up-> AR포인팅 : AR 포인팅 클릭\nsignal : endArDrawing 
+    AR드로잉 -up-> 3D콘텐츠 : 3D 콘텐츠 클릭\nsignal : endArDrawing, start3dContentsShare
+}
+@enduml
