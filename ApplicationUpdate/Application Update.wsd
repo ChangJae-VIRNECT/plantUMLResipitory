@@ -1,0 +1,60 @@
+@startuml
+start
+:Launch app;
+:Display splash image (Virnect Logo);
+#LightBlue :PermissionManager;
+detach
+
+card #LightBlue PermissionManager {
+    floating note : check mic and camera permission
+    if (HoloLens Device) then (yes)
+        if (permissions) then (allow)
+            #LightPink :NetworkChecker;
+            detach
+        else (deny)
+            :application quit;
+            detach
+        endif
+    else (no)
+        #LightPink :NetworkChecker;
+        detach
+    endif
+    }
+
+card #LightPink NetworkChecker {
+    floating note : check network state
+    if (network state) then (connected)
+        if (HoloLens Device) then (yes)
+            #LightGreen :ApplicationUpdateManager;
+        else (no)
+            #LightSalmon :SplashTimer;
+        endif
+        detach
+    else (disconnected)
+        :application quit;
+        detach
+    endif
+    }
+
+card #LightGreen ApplicationUpdateManager {
+    floating note : check Microsoft store app package version
+    if (ConfigurationManager.APIServer == APIServer.Product) then (yes)
+        if (store package version > current package version) then (yes)
+            :package download and update;
+            :reboot app;
+            detach
+        else (no)
+            #LightSalmon :SplashTimer;
+        endif
+        detach
+    else (no)
+        #LightSalmon :SplashTimer;
+    endif
+    detach
+    }
+  
+card #LightSalmon SplashTimer {
+    :ProgressBar;
+}
+:Login Panel;
+@enduml
