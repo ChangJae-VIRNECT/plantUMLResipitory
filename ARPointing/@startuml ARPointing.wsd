@@ -1,0 +1,60 @@
+@startuml ARPointing
+mainframe AR pointing when AR target is Hololens user
+actor Leader #LightBlue
+actor HololensUser #LightPink
+actor OtherUsers #LightCyan
+Leader -> HololensUser : **signal : **video\n**type :** share
+note left: Start video share
+Leader -> OtherUsers : **signal : **video\n**type :** share
+group Screen sharing
+    Leader -> HololensUser : **signal : **arFeature\n**type : **startArFeature
+    note left: Start AR feature
+    Leader -> OtherUsers : **signal : **arFeature\n**type : **startArFeature
+    group AR Pointing
+        rnote across
+        Hide realtime communication panel and floating panel
+        Disable handmenu buttons
+        end note
+        Leader -> HololensUser : **type : **arPointing\n**posX : **X coordinate\n**posY : **Y coordinate
+        note left: Pointing on the sharing screen\nPoint converted to coordinate (Range -1 to 1)
+        OtherUsers -> HololensUser : **type : **arPointing\n**posX : **X coordinate\n**posY : **Y coordinate
+        note right: Pointing on the sharing screen\nPoint converted to coordinate (Range -1 to 1)
+        rnote across
+        Cast a ray from received coordinate on the screen
+        if the ray intersects with a collider, then arrow object is generated on the hit collider
+        end note
+        ' Leader -> HololensUser : **signal : **3dContentsShare\n**type :** start3dContentsShare
+        ' note left: Start 3D contents share
+        ' Leader -> OtherUsers : **signal : **3dContentsShare\n**type :** start3dContentsShare
+        ' group 3D Contents Share
+        '     rnote across #LightSlateGray
+        '     under construction
+        '     end note
+        '     Leader -> HololensUser : **signal : **3dContentsShare\n**type :** stop3dContentsShare
+        '     note left: Stop 3D contents share
+        '     Leader -> OtherUsers : **signal : **3dContentsShare\n**type :** stop3dContentsShare
+        ' end
+        ' Leader -> HololensUser : **signal : **arDrawing\n**type :** startArDrawing
+        ' note left: Start AR drawing
+        ' Leader -> OtherUsers : **signal : **arDrawing\n**type :** startArDrawing
+        ' group AR Drawing
+        '     rnote across #LightSlateGray
+        '     under construction
+        '     end note
+        '     Leader -> HololensUser : **signal : **arDrawing\n**type :** stopArDrawing
+        '     note left: Stop AR Drawing
+        '     Leader -> OtherUsers : **signal : **arDrawing\n**type :** stopArDrawing
+        ' end
+    Leader -> HololensUser : **signal : **arFeature\n**type : **stopArFeature
+    note left: Stop AR Feature
+    Leader -> OtherUsers : **signal : **arFeature\n**type : **stopArFeature
+    end
+    rnote across
+        restore realtime communication panel and floating panel
+        Enable handmenu buttons
+        end note
+    Leader -> HololensUser : **signal : **video\n**type :** normal
+    note left: Stop video share
+    Leader -> OtherUsers : **signal : **video\n**type :** normal
+end
+@enduml
